@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { isPast, isToday, format, differenceInDays } from "date-fns";
-import type { Task, TaskStatus, Priority } from "@/app/generated/prisma/client";
+import type { Task, TaskStatus, Priority } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

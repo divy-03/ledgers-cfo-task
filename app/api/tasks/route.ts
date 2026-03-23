@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createTaskSchema } from "@/lib/zod";
-import { TaskStatus } from "@/app/generated/prisma/client";
+import { TaskStatus } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
   try {

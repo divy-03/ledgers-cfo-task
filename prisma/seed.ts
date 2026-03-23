@@ -1,4 +1,4 @@
-import { TaskStatus, Priority } from "@/app/generated/prisma/client";
+import { TaskStatus, Priority } from "@prisma/client";
 import { prisma } from "@/lib/prisma"
 
 async function main() {

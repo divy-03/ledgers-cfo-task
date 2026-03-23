@@ -1,4 +1,4 @@
-import type { Client, Task, TaskStatus, Priority } from "@/app/generated/prisma/client";
+import type { Client, Task, TaskStatus, Priority } from "@prisma/client";
 
 export type { Client, Task, TaskStatus, Priority };
 
