@@ -4,6 +4,7 @@ import { useState } from "react";
 import ClientList from "./clients/ClientList";
 import type { ClientWithTaskCount } from "@/types";
 import TaskPanel from "./tasks/TaskPanel";
+import { ModeToggleBtn } from "./ModeToggleBtn";
 
 export default function Dashboard() {
   const [selectedClient, setSelectedClient] =
@@ -21,6 +22,7 @@ export default function Dashboard() {
               Client task management
             </p>
           </div>
+          <ModeToggleBtn />
         </div>
       </header>
 
