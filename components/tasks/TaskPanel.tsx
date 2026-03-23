@@ -3,6 +3,8 @@ import { useEffect, useState, useCallback } from "react";
 import type { Task, TaskStatus, ClientWithTaskCount } from "@/types";
 import TaskList from "./TaskList";
 import TaskFilters from "./TaskFilters";
+import { Plus } from "lucide-react";
+import AddTaskModal from "./AddTaskModal";
 
 interface Props {
   client: ClientWithTaskCount;
@@ -11,6 +13,7 @@ interface Props {
 export default function TaskPanel({ client }: Props) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   // Filters
   const [statusFilter, setStatusFilter] = useState<TaskStatus | "ALL">("ALL");
@@ -79,6 +82,13 @@ export default function TaskPanel({ client }: Props) {
               {client.country} · {client.entityType}
             </p>
           </div>
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="btn-primary"
+          >
+            <Plus />
+            Add Task
+          </button>
         </div>
 
       </div>
@@ -106,6 +116,19 @@ export default function TaskPanel({ client }: Props) {
           onTaskUpdated={handleTaskUpdated}
         />
       </div>
+
+
+      {showAddModal && (
+        <AddTaskModal
+          clientId={client.id}
+          onClose={() => setShowAddModal(false)}
+          onCreated={() => {
+            setShowAddModal(false);
+            fetchTasks();
+          }}
+        />
+      )}
+
 
     </div>
   );
