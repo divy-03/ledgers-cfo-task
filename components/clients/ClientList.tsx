@@ -108,10 +108,10 @@ function ClientCard({
     <button
       onClick={onClick}
       className={cn(
-        "w-full text-left p-3 rounded-lg mb-1 transition-all duration-100 group",
+        "w-full text-left text-gray-50 p-3 rounded-lg mb-1 transition-all duration-100 group",
         isSelected
           ? "bg-brand-50 border border-brand-200"
-          : "hover:bg-gray-500 border border-transparent"
+          : "hover:bg-gray-900 border border-transparent"
       )}
     >
       <div className="flex items-center gap-3">
@@ -126,7 +126,7 @@ function ClientCard({
           <p
             className={cn(
               "text-sm font-medium truncate",
-              isSelected ? "text-brand-700" : "text-gray-900"
+              isSelected ? "text-brand-900" : "text-gray-200"
             )}
           >
             {client.companyName}
@@ -136,16 +136,13 @@ function ClientCard({
           </p>
         </div>
         <span
-          className={cn(
-            "text-xs font-medium px-1.5 py-0.5 rounded-full flex-shrink-0",
-            isSelected
-              ? "bg-brand-100 text-brand-700"
-              : "bg-gray-100 text-gray-500"
-          )}
+          className={
+            "text-xs font-medium px-1.5 py-0.5 rounded-full flex-shrink-0 bg-gray-100 text-gray-700"
+          }
         >
           {client._count.tasks}
         </span>
       </div>
-    </button>
+    </button >
   );
 }
