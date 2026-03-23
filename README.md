@@ -8,17 +8,17 @@ This project is a compliance task management application built for LedgersCFO. I
 
 This project is built with a modern web development stack:
 
--   **Framework:** [Next.js](https://nextjs.org/)
--   **Language:** [TypeScript](https://www.typescriptlang.org/)
--   **Database:** [PostgreSQL](https://www.postgresql.org/)
--   **ORM:** [Prisma](https://www.prisma.io/)
--   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
--   **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
--   **Icons:** [Lucide React](https://lucide.dev/guide/react)
--   **State Management:** React Hooks & a SWR-like data fetching pattern
--   **Forms:** [React Hook Form](https://react-hook-form.com/)
--   **Schema Validation:** [Zod](https://zod.dev/)
--   **Theming:** [next-themes](https://github.com/pacocoursey/next-themes) for dark mode support
+- **Framework:** [Next.js](https://nextjs.org/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Database:** [PostgreSQL](https://www.postgresql.org/)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
+- **Icons:** [Lucide React](https://lucide.dev/guide/react)
+- **State Management:** React Hooks & a SWR-like data fetching pattern
+- **Forms:** [React Hook Form](https://react-hook-form.com/)
+- **Schema Validation:** [Zod](https://zod.dev/)
+- **Theming:** [next-themes](https://github.com/pacocoursey/next-themes) for dark mode support
 
 ## Getting Started
 
@@ -26,65 +26,64 @@ Follow these instructions to get the project up and running on your local machin
 
 ### Prerequisites
 
--   [Node.js](https://nodejs.org/en/) (v20 or later recommended)
--   [npm](https://www.npmjs.com/) (or [Bun](https://bun.sh/))
--   A running [PostgreSQL](https://www.postgresql.org/download/) database instance.
+- [Bun](https://bun.sh/) (or Node.js and npm)
+- [Docker](https://www.docker.com/products/docker-desktop/)
 
 ### Setup Instructions
 
-1.  **Clone the repository:**
+1. **Clone the repository:**
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/divy-03/ledgers-cfo-task
     cd ledgers-cfo-task
     ```
 
-2.  **Install dependencies:**
+2. **Start the PostgreSQL database:**
 
-    This project uses `npm` for package management.
+    This project includes a `docker-compose.yml` file to easily run a PostgreSQL database instance.
 
     ```bash
-    npm install
+    docker-compose up -d
     ```
-    *Note: A `bun.lock` file is also present, so you can use `bun install` as an alternative if you have Bun installed.*
 
-3.  **Set up environment variables:**
+    This will start a PostgreSQL container in the background.
 
-    Create a file named `.env` in the root of your project directory. Add the connection string for your PostgreSQL database:
+3. **Install dependencies:**
+
+    This project uses `bun` for package management.
+
+    ```bash
+    bun install
+    ```
+
+    *Alternatively, you can use `npm install`.*
+
+4. **Set up environment variables:**
+
+    The project is pre-configured to connect to the Dockerized PostgreSQL database. The required `DATABASE_URL` is:
 
     ```
-    DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+    DATABASE_URL="postgresql://postgres:password@localhost:5432/mydb?schema=public"
     ```
-    Replace `USER`, `PASSWORD`, `HOST`, `PORT`, and `DATABASE` with your PostgreSQL credentials. For example: `postgresql://postgres:password@localhost:5432/cfo-tasks?schema=public`.
 
-4.  **Set up the database:**
+    You should create a `.env` file with this content if it doesn't exist.
 
-    Run the following commands to apply migrations to create the database schema, and then seed the database with some initial data.
+5. **Set up the database schema and data:**
+
+    Run the following commands to apply migrations and seed the database:
 
     ```bash
     # Apply database migrations
-    npm run db:migrate
+    bun run db:migrate
 
     # Seed the database with initial data
-    npm run db:seed
+    bun run db:seed
     ```
 
-5.  **Run the development server:**
+6. **Run the development server:**
 
     ```bash
-    npm run dev
+    bun run dev
     ```
 
     The application should now be running at [http://localhost:3000](http://localhost:3000).
-
-### Available Scripts
-
--   `npm run dev`: Starts the development server.
--   `npm run build`: Builds the application for production.
--   `npm run start`: Starts a production server.
--   `npm run lint`: Lints the codebase using ESLint.
--   `npm run db:generate`: Generates Prisma Client based on your schema.
--   `npm run db:push`: Pushes the Prisma schema to the database without creating a migration (useful for prototyping).
--   `npm run db:migrate`: Creates and applies a new migration.
--   `npm run db:seed`: Seeds the database with data from `prisma/seed.ts`.
--   `npm run db:studio`: Opens Prisma Studio, a GUI for your database.
