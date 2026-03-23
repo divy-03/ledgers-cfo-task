@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ClientList from "./clients/ClientList";
 import type { ClientWithTaskCount } from "@/types";
+import TaskPanel from "./tasks/TaskPanel";
 
 export default function Dashboard() {
   const [selectedClient, setSelectedClient] =
@@ -10,13 +11,13 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#f8f7f4]">
-      <header className="bg-gray-900 border-b border-gray-200 px-6 py-4 flex items-center gap-4">
+      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-4">
         <div className="flex items-center gap-3">
           <div>
-            <h1 className="text-base font-semibold text-gray-100 leading-none">
+            <h1 className="text-base font-semibold text-gray-900 leading-none">
               Compliance Tracker
             </h1>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-gray-500 mt-0.5">
               Client task management
             </p>
           </div>
@@ -33,7 +34,11 @@ export default function Dashboard() {
 
 
         <main className="flex-1 overflow-hidden">
-          <EmptyState />
+          {selectedClient ? (
+            <TaskPanel client={selectedClient} />
+          ) : (
+            <EmptyState />
+          )}
         </main>
       </div>
     </div>
@@ -42,8 +47,8 @@ export default function Dashboard() {
 
 function EmptyState() {
   return (
-    <div className="flex flex-col bg-gray-800 items-center justify-center h-full text-center p-8">
-      <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
+    <div className="flex flex-col items-center justify-center h-full text-center p-8">
+      <div className="w-16 h-16 rounded-2xl bg-brand-50 flex items-center justify-center mb-4">
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -58,10 +63,10 @@ function EmptyState() {
           />
         </svg>
       </div>
-      <h2 className="text-lg font-semibold text-gray-100 mb-2">
+      <h2 className="text-lg font-semibold text-gray-900 mb-2">
         Select a client
       </h2>
-      <p className="text-sm text-gray-400 max-w-xs">
+      <p className="text-sm text-gray-500 max-w-xs">
         Choose a client from the sidebar to view and manage their compliance
         tasks.
       </p>

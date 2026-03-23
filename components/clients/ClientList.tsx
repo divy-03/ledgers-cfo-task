@@ -38,9 +38,9 @@ export default function ClientList({ selectedClientId, onSelectClient }: Props) 
   );
 
   return (
-    <div className="flex flex-col h-full bg-gray-800">
+    <div className="flex flex-col h-full">
       <div className="p-4 border-b border-gray-100">
-        <h2 className="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">
+        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
           Clients
         </h2>
         <div className="relative">
@@ -108,17 +108,17 @@ function ClientCard({
     <button
       onClick={onClick}
       className={cn(
-        "w-full text-left text-gray-50 p-3 rounded-lg mb-1 transition-all duration-100 group",
+        "w-full text-left p-3 rounded-lg mb-1 transition-all duration-100 group",
         isSelected
           ? "bg-brand-50 border border-brand-200"
-          : "hover:bg-gray-900 border border-transparent"
+          : "hover:bg-gray-50 border border-transparent"
       )}
     >
       <div className="flex items-center gap-3">
         <div
-          className={cn(
-            "w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0",
-          )}
+          className={
+            "w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0"
+          }
         >
           {initials}
         </div>
@@ -126,7 +126,7 @@ function ClientCard({
           <p
             className={cn(
               "text-sm font-medium truncate",
-              isSelected ? "text-brand-900" : "text-gray-200"
+              isSelected ? "text-brand-700" : "text-gray-900"
             )}
           >
             {client.companyName}
