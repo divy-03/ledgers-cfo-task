@@ -53,13 +53,13 @@ export default function AddTaskModal({ clientId, onClose, onCreated }: Props) {
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <h3 className="text-base font-semibold text-gray-900">Add New Task</h3>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">Add New Task</h3>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           >
             <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -74,11 +74,11 @@ export default function AddTaskModal({ clientId, onClose, onCreated }: Props) {
 
           {/* Title */}
           <div>
-            <label className="label">Title *</label>
+            <label className="label dark:text-gray-300">Title *</label>
             <input
               type="text"
               placeholder="e.g. Annual tax filing"
-              className="input"
+              className="input dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
               {...register("title")}
             />
             {errors.title && (
@@ -88,11 +88,11 @@ export default function AddTaskModal({ clientId, onClose, onCreated }: Props) {
 
           {/* Description */}
           <div>
-            <label className="label">Description</label>
+            <label className="label dark:text-gray-300">Description</label>
             <textarea
               placeholder="Optional details about this task..."
               rows={2}
-              className="input resize-none"
+              className="input resize-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
               {...register("description")}
             />
             {errors.description && (
@@ -103,8 +103,8 @@ export default function AddTaskModal({ clientId, onClose, onCreated }: Props) {
           {/* Category + Priority row */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="label">Category *</label>
-              <select className="input" {...register("category")}>
+              <label className="label dark:text-gray-300">Category *</label>
+              <select className="input dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" {...register("category")}>
                 <option value="">Select...</option>
                 {TASK_CATEGORIES.map((c) => (
                   <option key={c} value={c}>
@@ -117,8 +117,8 @@ export default function AddTaskModal({ clientId, onClose, onCreated }: Props) {
               )}
             </div>
             <div>
-              <label className="label">Priority *</label>
-              <select className="input" {...register("priority")}>
+              <label className="label dark:text-gray-300">Priority *</label>
+              <select className="input dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" {...register("priority")}>
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
                 <option value="HIGH">High</option>
@@ -132,10 +132,10 @@ export default function AddTaskModal({ clientId, onClose, onCreated }: Props) {
 
           {/* Due date */}
           <div>
-            <label className="label">Due Date *</label>
+            <label className="label dark:text-gray-300">Due Date *</label>
             <input
               type="date"
-              className="input"
+              className="input dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
               {...register("dueDate")}
             />
             {errors.dueDate && (

@@ -46,10 +46,14 @@ export default function TaskCard({ task, onUpdated }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
-      if (!res.ok) throw new Error("Update failed");
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to update task status");
+      }
       onUpdated();
     } catch (e) {
       console.error(e);
+      alert(e instanceof Error ? e.message : "Failed to update task status");
     } finally {
       setUpdating(false);
     }
@@ -58,26 +62,32 @@ export default function TaskCard({ task, onUpdated }: Props) {
   const deleteTask = async () => {
     if (!confirm("Delete this task?")) return;
     try {
-      await fetch(`/api/tasks/${task.id}`, { method: "DELETE" });
+      const res = await fetch(`/api/tasks/${task.id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Failed to delete task");
+      }
       onUpdated();
     } catch (e) {
       console.error(e);
+      alert(e instanceof Error ? e.message : "Failed to delete task");
     }
   };
 
   return (
     <div
       className={cn(
-        "card transition-all duration-150",
-        overdue && "border-red-200 bg-red-50/30",
+        "card transition-all duration-150 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl",
+        overdue && "border-red-200 bg-red-50/30 dark:border-red-800/50 dark:bg-red-900/10",
         task.status === "COMPLETED" && "opacity-70",
         task.status === "CANCELLED" && "opacity-50"
       )}
     >
+      {/* Overdue banner */}
       {overdue && (
-        <div className="flex items-center gap-1.5 px-4 py-1.5 bg-red-100 border-b border-red-200 rounded-t-xl">
+        <div className="flex items-center gap-1.5 px-4 py-1.5 bg-red-100 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800/50 rounded-t-xl">
           <span className="w-1.5 h-1.5 rounded-full bg-red-500 overdue-indicator" />
-          <span className="text-xs font-semibold text-red-700">
+          <span className="text-xs font-semibold text-red-700 dark:text-red-400">
             OVERDUE · {dueDateLabel}
           </span>
         </div>
@@ -85,8 +95,10 @@ export default function TaskCard({ task, onUpdated }: Props) {
 
       <div className="p-4">
         <div className="flex items-start gap-3">
+          {/* Status icon / checkbox */}
           <button
             onClick={() => {
+              const nextOptions = NEXT_STATUSES[task.status];
               if (task.status === "PENDING" || task.status === "IN_PROGRESS") {
                 updateStatus("COMPLETED");
               } else if (task.status === "COMPLETED") {
@@ -98,10 +110,10 @@ export default function TaskCard({ task, onUpdated }: Props) {
               task.status === "COMPLETED"
                 ? "bg-green-500 border-green-500"
                 : task.status === "CANCELLED"
-                  ? "bg-gray-300 border-gray-300"
+                  ? "bg-gray-300 dark:bg-gray-600 border-gray-300 dark:border-gray-600"
                   : overdue
                     ? "border-red-400 hover:border-red-500"
-                    : "border-gray-300 hover:border-brand-400"
+                    : "border-gray-300 dark:border-gray-600 hover:border-brand-400"
             )}
             disabled={updating}
           >
@@ -112,6 +124,7 @@ export default function TaskCard({ task, onUpdated }: Props) {
             )}
           </button>
 
+          {/* Main content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
               <button
@@ -122,39 +135,44 @@ export default function TaskCard({ task, onUpdated }: Props) {
                   className={cn(
                     "text-sm font-medium",
                     task.status === "COMPLETED"
-                      ? "text-gray-400 line-through"
+                      ? "text-gray-400 dark:text-gray-500 line-through"
                       : overdue
-                        ? "text-gray-900"
-                        : "text-gray-900"
+                        ? "text-gray-900 dark:text-gray-100"
+                        : "text-gray-900 dark:text-gray-100"
                   )}
                 >
                   {task.title}
                 </p>
               </button>
               <div className="flex items-center gap-1.5 flex-shrink-0">
+                {/* Priority badge */}
                 <span className={cn("priority-badge", priorityCfg.color)}>
                   {priorityCfg.label}
                 </span>
               </div>
             </div>
 
+            {/* Meta row */}
             <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+              {/* Status */}
               <span className={cn("status-badge", statusCfg.color)}>
                 <span className={cn("w-1.5 h-1.5 rounded-full", statusCfg.dot)} />
                 {statusCfg.label}
               </span>
 
-              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+              {/* Category */}
+              <span className="text-xs text-gray-500 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full">
                 {task.category}
               </span>
 
+              {/* Due date */}
               {!overdue && (
                 <span
                   className={cn(
                     "text-xs font-medium",
                     task.status === "COMPLETED" || task.status === "CANCELLED"
-                      ? "text-gray-400"
-                      : "text-gray-500"
+                      ? "text-gray-400 dark:text-gray-500"
+                      : "text-gray-500 dark:text-gray-400"
                   )}
                 >
                   {formatDate(task.dueDate)}
@@ -162,16 +180,18 @@ export default function TaskCard({ task, onUpdated }: Props) {
               )}
             </div>
 
+            {/* Expanded description */}
             {expanded && task.description && (
-              <p className="text-xs text-gray-500 mt-2 leading-relaxed">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
                 {task.description}
               </p>
             )}
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-gray-100">
-          <span className="text-xs text-gray-400 mr-auto">
+        {/* Actions row */}
+        <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+          <span className="text-xs text-gray-400 dark:text-gray-500 mr-auto">
             {task.description && (
               <button
                 onClick={() => setExpanded(!expanded)}
@@ -182,6 +202,7 @@ export default function TaskCard({ task, onUpdated }: Props) {
             )}
           </span>
 
+          {/* Status transitions */}
           {NEXT_STATUSES[task.status].map((opt) => (
             <button
               key={opt.value}
@@ -190,21 +211,22 @@ export default function TaskCard({ task, onUpdated }: Props) {
               className={cn(
                 "text-xs px-2.5 py-1 rounded-md font-medium transition-colors border",
                 opt.value === "COMPLETED"
-                  ? "border-green-200 text-green-700 hover:bg-green-50"
+                  ? "border-green-200 text-green-700 hover:bg-green-50 dark:border-green-800 dark:text-green-400 dark:hover:bg-green-900/30"
                   : opt.value === "CANCELLED"
-                    ? "border-red-200 text-red-600 hover:bg-red-50"
+                    ? "border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/30"
                     : opt.value === "IN_PROGRESS"
-                      ? "border-blue-200 text-blue-700 hover:bg-blue-50"
-                      : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                      ? "border-blue-200 text-blue-700 hover:bg-blue-50 dark:border-blue-800 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                      : "border-gray-200 text-gray-600 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
               )}
             >
               {updating ? "..." : opt.label}
             </button>
           ))}
 
+          {/* Delete */}
           <button
             onClick={deleteTask}
-            className="p-1 rounded-md text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors ml-1"
+            className="p-1 rounded-md text-gray-300 dark:text-gray-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors ml-1"
             title="Delete task"
           >
             <svg viewBox="0 0 24 24" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth={2}>

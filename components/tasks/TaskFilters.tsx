@@ -39,12 +39,12 @@ export default function TaskFilters({
   onSortOrderChange,
 }: Props) {
   return (
-    <div className="bg-white border-b border-gray-200 px-6 py-3">
+    <div className="bg-white dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700 px-6 py-3">
       <div className="flex items-center gap-4 flex-wrap">
         {/* Search */}
         <div className="relative flex-1 min-w-48 max-w-64">
           <svg
-            className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400"
+            className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 dark:text-gray-500"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -57,7 +57,7 @@ export default function TaskFilters({
             placeholder="Search tasks..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+            className="w-full pl-8 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent dark:text-gray-100"
           />
         </div>
 
@@ -70,7 +70,7 @@ export default function TaskFilters({
                 "px-3 py-1 rounded-full text-xs font-medium transition-all",
                 statusFilter === opt.value
                   ? "bg-brand-600 text-white shadow-sm"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
               )}
             >
               {opt.label}
@@ -82,7 +82,7 @@ export default function TaskFilters({
           <select
             value={categoryFilter}
             onChange={(e) => onCategoryChange(e.target.value)}
-            className="text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 text-gray-700"
+            className="text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-2.5 py-1.5 bg-white dark:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-brand-500 text-gray-700 dark:text-gray-300"
           >
             <option value="ALL">All categories</option>
             {categories.map((c) => (
@@ -99,7 +99,7 @@ export default function TaskFilters({
             onChange={(e) =>
               onSortByChange(e.target.value as "dueDate" | "priority" | "createdAt")
             }
-            className="text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 text-gray-700"
+            className="text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-2.5 py-1.5 bg-white dark:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-brand-500 text-gray-700 dark:text-gray-300"
           >
             <option value="dueDate">Due Date</option>
             <option value="priority">Priority</option>
@@ -107,7 +107,7 @@ export default function TaskFilters({
           </select>
           <button
             onClick={() => onSortOrderChange(sortOrder === "asc" ? "desc" : "asc")}
-            className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-600"
+            className="p-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
             title={sortOrder === "asc" ? "Ascending" : "Descending"}
           >
             {sortOrder === "asc" ? (

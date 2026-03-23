@@ -11,14 +11,14 @@ export default function Dashboard() {
     useState<ClientWithTaskCount | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#f8f7f4]">
-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-4">
+    <div className="min-h-screen bg-[#f8f7f4] dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center gap-4">
         <div className="flex items-center gap-3">
           <div>
-            <h1 className="text-base font-semibold text-gray-900 leading-none">
+            <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100 leading-none">
               Compliance Tracker
             </h1>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
               Client task management
             </p>
           </div>
@@ -27,7 +27,7 @@ export default function Dashboard() {
       </header>
 
       <div className="flex h-[calc(100vh-65px)]">
-        <aside className="w-72 border-r border-gray-200 bg-white flex flex-col overflow-hidden flex-shrink-0">
+        <aside className="w-72 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col overflow-hidden flex-shrink-0">
           <ClientList
             selectedClientId={selectedClient?.id ?? null}
             onSelectClient={setSelectedClient}
@@ -65,10 +65,10 @@ function EmptyState() {
           />
         </svg>
       </div>
-      <h2 className="text-lg font-semibold text-gray-900 mb-2">
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
         Select a client
       </h2>
-      <p className="text-sm text-gray-500 max-w-xs">
+      <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs">
         Choose a client from the sidebar to view and manage their compliance
         tasks.
       </p>

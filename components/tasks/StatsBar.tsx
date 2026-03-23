@@ -10,15 +10,15 @@ interface Stats {
 
 export default function StatsBar({ stats }: { stats: Stats }) {
   const items = [
-    { label: "Total", value: stats.total, color: "text-gray-700", bg: "bg-gray-100" },
-    { label: "Pending", value: stats.pending, color: "text-amber-700", bg: "bg-amber-50" },
-    { label: "In Progress", value: stats.inProgress, color: "text-blue-700", bg: "bg-blue-50" },
-    { label: "Completed", value: stats.completed, color: "text-green-700", bg: "bg-green-50" },
+    { label: "Total", value: stats.total, color: "text-gray-700 dark:text-gray-200", bg: "bg-gray-100 dark:bg-gray-800" },
+    { label: "Pending", value: stats.pending, color: "text-amber-700 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-900/50" },
+    { label: "In Progress", value: stats.inProgress, color: "text-blue-700 dark:text-blue-400", bg: "bg-blue-50 dark:bg-blue-900/50" },
+    { label: "Completed", value: stats.completed, color: "text-green-700 dark:text-green-400", bg: "bg-green-50 dark:bg-green-900/50" },
     {
       label: "Overdue",
       value: stats.overdue,
-      color: stats.overdue > 0 ? "text-red-700" : "text-gray-400",
-      bg: stats.overdue > 0 ? "bg-red-50" : "bg-gray-50",
+      color: stats.overdue > 0 ? "text-red-700 dark:text-red-400" : "text-gray-400 dark:text-gray-500",
+      bg: stats.overdue > 0 ? "bg-red-50 dark:bg-red-900/50" : "bg-gray-50 dark:bg-gray-800",
     },
   ];
 

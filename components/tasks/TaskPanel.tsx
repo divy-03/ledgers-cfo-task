@@ -54,18 +54,24 @@ export default function TaskPanel({ client }: Props) {
     fetchTasks();
   }, [fetchTasks]);
 
-  const handleTaskUpdated = () => {
-    fetchTasks();
-  };
-
-  // Stats on ALL tasks (no filter) — refetch without filters for accurate stats
-  const [allTasks, setAllTasks] = useState<Task[]>([]);
-  useEffect(() => {
+  const fetchAllTasksForStats = useCallback(() => {
     fetch(`/api/tasks?clientId=${client.id}`)
       .then((r) => r.json())
       .then(setAllTasks)
       .catch(console.error);
-  }, [client.id, tasks]); // re-run whenever tasks change
+  }, [client.id]);
+
+  useEffect(() => {
+    fetchAllTasksForStats();
+  }, [fetchAllTasksForStats]);
+
+  const handleTaskUpdated = () => {
+    fetchTasks();
+    fetchAllTasksForStats();
+  };
+
+  // Stats on ALL tasks (no filter)
+  const [allTasks, setAllTasks] = useState<Task[]>([]);
 
   const stats = getTaskStats(allTasks);
 
@@ -73,15 +79,15 @@ export default function TaskPanel({ client }: Props) {
   const usedCategories = Array.from(new Set(allTasks.map((t) => t.category)));
 
   return (
-    <div className="flex flex-col h-full bg-[#f8f7f4]">
+    <div className="flex flex-col h-full bg-[#f8f7f4] dark:bg-gray-900">
       {/* Client header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {client.companyName}
             </h2>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
               {client.country} · {client.entityType}
             </p>
           </div>
@@ -129,7 +135,7 @@ export default function TaskPanel({ client }: Props) {
           onClose={() => setShowAddModal(false)}
           onCreated={() => {
             setShowAddModal(false);
-            fetchTasks();
+            handleTaskUpdated();
           }}
         />
       )}

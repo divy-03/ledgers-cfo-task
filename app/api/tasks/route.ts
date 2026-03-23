@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Verify client exists
     const client = await prisma.client.findUnique({ where: { id: clientId } });
     if (!client) {
       return NextResponse.json({ error: "Client not found" }, { status: 404 });
@@ -65,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Validation failed", details: parsed.error },
+        { error: "Validation failed", details: parsed.error.flatten() },
         { status: 400 }
       );
     }
