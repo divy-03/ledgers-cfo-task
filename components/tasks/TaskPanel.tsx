@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import type { Task, TaskStatus, ClientWithTaskCount } from "@/types";
+import { getTaskStats } from "@/lib/utils";
 import TaskList from "./TaskList";
+import AddTaskModal from "./AddTaskModal";
+import StatsBar from "./StatsBar";
 import TaskFilters from "./TaskFilters";
 import { Plus } from "lucide-react";
-import AddTaskModal from "./AddTaskModal";
 
 interface Props {
   client: ClientWithTaskCount;
@@ -65,6 +67,7 @@ export default function TaskPanel({ client }: Props) {
       .catch(console.error);
   }, [client.id, tasks]); // re-run whenever tasks change
 
+  const stats = getTaskStats(allTasks);
 
   // Determine categories actually in use for this client
   const usedCategories = Array.from(new Set(allTasks.map((t) => t.category)));
@@ -91,6 +94,8 @@ export default function TaskPanel({ client }: Props) {
           </button>
         </div>
 
+        {/* Stats bar */}
+        <StatsBar stats={stats} />
       </div>
 
       {/* Filters */}
@@ -117,7 +122,7 @@ export default function TaskPanel({ client }: Props) {
         />
       </div>
 
-
+      {/* Add task modal */}
       {showAddModal && (
         <AddTaskModal
           clientId={client.id}
@@ -128,8 +133,6 @@ export default function TaskPanel({ client }: Props) {
           }}
         />
       )}
-
-
     </div>
   );
 }
