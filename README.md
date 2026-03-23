@@ -43,7 +43,7 @@ Follow these instructions to get the project up and running on your local machin
     This project includes a `docker-compose.yml` file to easily run a PostgreSQL database instance.
 
     ```bash
-    docker-compose up -d
+    docker compose up -d
     ```
 
     This will start a PostgreSQL container in the background.
